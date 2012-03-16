@@ -16,7 +16,6 @@ describe("cactus", function() {
       expect(debug.target_element).toEqual("div");
       expect(debug.css_attribute).toEqual("display");
       expect(debug.computed_style).toBeDefined();
-
     });
   });
 
@@ -38,9 +37,9 @@ describe("cactus", function() {
     });
 
     describe("toHaveColor", function() {
-      it("is equal", function() {
+      it("is equal (case insensitive)", function() {
         var expectation = cactus.expect(".banner", "background-color");
-        var result = expectation.toHaveColor("#ffeeff");
+        var result = expectation.toHaveColor("#FFEEFF");
 
         expect(result).toBeTruthy();
       });
@@ -52,8 +51,6 @@ describe("cactus", function() {
         expect(result).toBeFalsy();
       });
     });
-
-
 
   });
 
