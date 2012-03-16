@@ -37,6 +37,22 @@ describe("cactus", function() {
         });
       });
 
+      describe("toContain", function() {
+        beforeEach(function() {
+          expectation = cactus.expect(".banner", "display");
+        });
+
+        it("is equal", function() {
+          var result = expectation.toContain("blo");
+          expect(result).toBeTruthy();
+        });
+
+        it("is not equal", function() {
+          var result = expectation.toContain("non");
+          expect(result).toBeFalsy();
+        });
+      });
+
       describe("toHaveColor", function() {
         beforeEach(function() {
           expectation = cactus.expect(".banner", "background-color");
@@ -86,6 +102,22 @@ describe("cactus", function() {
 
         it("is not equal", function() {
           var result = expectation.toEqual("left");
+          expect(result).toBeFalsy();
+        });
+      });
+
+      describe("toContain", function() {
+        beforeEach(function() {
+          expectation = cactus.expect("label", "text-align");
+        });
+
+        it("is equal", function() {
+          var result = expectation.toContain("righ");
+          expect(result).toBeTruthy();
+        });
+
+        it("is not equal", function() {
+          var result = expectation.toContain("lef");
           expect(result).toBeFalsy();
         });
       });

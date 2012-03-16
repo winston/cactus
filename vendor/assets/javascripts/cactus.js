@@ -28,13 +28,15 @@ var cactus = (function() {
     return this;
   }
 
-  function expectationResult(computed, expected) {
+  function expectationResult(computed, expected, comparator) {
+    // Defaults to equality comparator
+    if (comparator === undefined) { comparator = function(x, y) { return x === y; }; }
+
     var result = true;
     $.each(computed, function(index, style) {
-      if(style !== expected) {
+      if (!comparator(style, expected)) {
         jq_selector = "$('" + tag_name + "')" + "[" + index + "]";
         console.log("Cactus expected " + jq_selector + " " + property + " to equal " + expected + ", but got " + style + " instead.");
-
         result = result && false;
       }
     });
@@ -46,8 +48,11 @@ var cactus = (function() {
     return expectationResult(styles, expected_style);
   }
 
-  function toHaveColor(expected_style) {
+  function toContain(expected_style) {
+    return expectationResult(styles, expected_style, function(x, y) { return x.match(y); });
+  }
 
+  function toHaveColor(expected_style) {
     // Source: http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-jquery
     function rgb2hex(rgb) {
       function hex(x) { return ("0" + parseInt(x).toString(16)).slice(-2); }
@@ -67,6 +72,7 @@ var cactus = (function() {
     expect      : expect,
     expectEvery : expectEvery,
     toEqual     : toEqual,
+    toContain   : toContain,
     toHaveColor : toHaveColor
   };
 
