@@ -19,7 +19,7 @@ describe ApplicationController do
         html.should =~ /cactus.js/i
       end
 
-      it "renders *_spec.js files located in public/cactus_spec" do
+      it "renders *spec.js files located in public/cactus_spec" do
         html.should_not =~ /spec\/dummy\/public/i
 
         html.should =~ /cactus_spec\/css1_spec.js/i
