@@ -8,6 +8,8 @@ module Cactus
       end
 
       def cactus
+        return unless ::Rails.env.test? || ::Rails.env.development?
+
         html  = "<script src='/assets/cactus.js' type='text/javascript'></script>"
 
         dir   = "#{::Rails.root}/public"

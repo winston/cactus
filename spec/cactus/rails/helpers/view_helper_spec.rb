@@ -3,6 +3,9 @@ require 'spec_helper'
 describe ApplicationController do
 
   describe "cactus" do
+    let(:controller) { ApplicationController.new }
+    let(:html)       { controller.cactus }
+
     it "has method" do
       ApplicationController.instance_methods.should include :cactus
     end
@@ -12,9 +15,6 @@ describe ApplicationController do
     end
 
     context "rendering" do
-      let(:controller) { ApplicationController.new }
-      let(:html)       { controller.cactus }
-
       it "renders cactus.js" do
         html.should =~ /cactus.js/i
       end
@@ -26,6 +26,28 @@ describe ApplicationController do
         html.should =~ /cactus_spec\/css2_spec.js/i
 
         html.should_not =~ /notcss.js/i
+      end
+    end
+
+    context "environment" do
+      it "production renders nothing" do
+        ::Rails.should_receive(:env).any_number_of_times.and_return(ActiveSupport::StringInquirer.new("production"))
+        html.should be_blank
+      end
+
+      it "any other renders nothing" do
+        ::Rails.should_receive(:env).any_number_of_times.and_return(ActiveSupport::StringInquirer.new("staging"))
+        html.should be_blank
+      end
+
+      it "test renders something" do
+        ::Rails.should_receive(:env).any_number_of_times.and_return(ActiveSupport::StringInquirer.new("test"))
+        html.should_not be_blank
+      end
+
+      it "development renders something" do
+        ::Rails.should_receive(:env).any_number_of_times.and_return(ActiveSupport::StringInquirer.new("development"))
+        html.should_not be_blank
       end
     end
   end
