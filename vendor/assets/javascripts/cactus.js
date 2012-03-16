@@ -1,53 +1,69 @@
 var cactus = (function() {
 
-  var target_element = null;
-  var css_attribute  = null;
-  var computed_style = null;
+  var tag_name = null;
+  var property = null;
+  var styles   = null;
+
+  function debug() {
+    return {
+      tag_name  : tag_name,
+      property  : property,
+      styles    : styles
+    };
+  }
 
   function expect(elem, attr) {
-    target_element = elem;
-    css_attribute  = attr
-    computed_style = $(target_element).css(css_attribute);
+    tag_name  = elem;
+    property  = attr
+    styles    = [ $(tag_name).css(property) ];
 
     return this;
   }
 
-  function debug() {
-    return { target_element: target_element, css_attribute: css_attribute, computed_style: computed_style };
+  function expectEvery(elem, attr) {
+    tag_name  = elem;
+    property  = attr
+    styles    = $.map( $(tag_name), function(elem, i) { return $(elem).css(property);  } );
+
+    return this;
   }
 
   function expectationResult(computed, expected) {
-    if(computed !== expected) {
-      console.log("Expected " + target_element + ":" + css_attribute + " to equal " + expected + ", got " + computed + " instead." );
-      return false;
-    } else {
-      return true;
-    }
+    var result = true;
+    $.each(computed, function(index, style) {
+      if(style !== expected) {
+        console.log("Expected " + tag_name + ":" + property + " to equal " + expected + ", got " + style + " instead." );
+        result = result && false;
+      }
+    });
+
+    return result;
   }
 
   function toEqual(expected_style) {
-    return expectationResult(computed_style, expected_style)
+    return expectationResult(styles, expected_style);
   }
 
   function toHaveColor(expected_style) {
 
     // Source: http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-jquery
     function rgb2hex(rgb) {
-      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-
       function hex(x) { return ("0" + parseInt(x).toString(16)).slice(-2); }
+
+      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
       return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
     }
 
-    computed = rgb2hex(computed_style).toLowerCase();
+    computed = $.map( styles, function(style, i) { return rgb2hex(style).toLowerCase(); } );
     expected = expected_style.toLowerCase();
 
     return expectationResult(computed, expected);
   }
 
   return {
-    expect      : expect,
     debug       : debug,
+    expect      : expect,
+    expectEvery : expectEvery,
     toEqual     : toEqual,
     toHaveColor : toHaveColor
   };
