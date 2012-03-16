@@ -29,13 +29,32 @@ describe("cactus", function() {
         expect(result).toBeTruthy();
       });
 
-      it("is equal", function() {
+      it("is not equal", function() {
         var expectation = cactus.expect("div", "display");
         var result = expectation.toEqual("none");
 
         expect(result).toBeFalsy();
       });
     });
+
+    describe("toHaveColor", function() {
+      it("is equal", function() {
+        var expectation = cactus.expect(".banner", "background-color");
+        var result = expectation.toHaveColor("#ffeeff");
+
+        expect(result).toBeTruthy();
+      });
+
+      it("is not equal", function() {
+        var expectation = cactus.expect(".banner", "background-color");
+        var result = expectation.toHaveColor("#000000");
+
+        expect(result).toBeFalsy();
+      });
+    });
+
+
+
   });
 
 });
