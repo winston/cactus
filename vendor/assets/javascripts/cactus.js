@@ -32,7 +32,9 @@ var cactus = (function() {
     var result = true;
     $.each(computed, function(index, style) {
       if(style !== expected) {
-        console.log("Expected " + tag_name + ":" + property + " to equal " + expected + ", got " + style + " instead." );
+        jq_selector = "$('" + tag_name + "')" + "[" + index + "]";
+        console.log("Cactus expected " + jq_selector + " " + property + " to equal " + expected + ", but got " + style + " instead.");
+
         result = result && false;
       }
     });
