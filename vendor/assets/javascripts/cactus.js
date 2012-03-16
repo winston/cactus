@@ -1,6 +1,6 @@
 var cactus = {};
 
-cactus.ensure = function(dom, att) {
+cactus.expect = function(dom, att) {
   var dom = dom;
   var att = att;
   var css = $(dom).css(att);
