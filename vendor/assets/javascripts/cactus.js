@@ -124,11 +124,11 @@ CactusReport = (function() {
 
     if ($html.length === 0) {
       // Create a new div#cactus
-      $html = $("<div id='cactus'><div class='cactus_header'><div class='cactus_banner'>Cactus</div><div class='cactus_option'><a href='#' class='cactus_toggle_pass' style='display: none;'>Show Passes</a> | <a href='#' class='cactus_toggle_fail' style='display: none;'>Hide Failures</a></div></div></div>");
+      $html = $("<div id='cactus'><div class='cactus_header'><div class='cactus_banner'>Cactus</div><div class='cactus_option'><a href='#' class='cactus_toggle_pass' style='display: none;'>Show Passes</a> <a href='#' class='cactus_toggle_fail' style='display: none;'>Hide Failures</a></div></div></div>");
 
       // Setup CSS stylings
       $html.css( { "position": "absolute", "width": "100%", "bottom": 0, "left": 0, "font-size": "12px" } );
-      $html.find(".cactus_header").css( { "display": "block", "margin": "4px 0", "padding": "5px 10px", "background": "#faebd7", "overflow": "hidden" } );
+      $html.find(".cactus_header").css( { "display": "block", "margin": "10px 0 0", "padding": "10px", "background": "#faebd7", "overflow": "hidden" } );
       $html.find(".cactus_banner").css( { "display": "block", "float": "left" , "font-size": "28px", "font-weight": "bold" } );
       $html.find(".cactus_option").css( { "display": "block", "float": "right", "font-size": "12px", "font-weight": "bold" } );
 
