@@ -1,15 +1,15 @@
-describe("cactus", function() {
+describe("Cactus", function() {
 
   var expectation;
 
   describe("css verification for one element", function() {
     describe("expect", function() {
       beforeEach(function() {
-        expectation = cactus.expect(".banner", "display");
+        expectation = Cactus.expect(".banner", "display");
       });
 
       it("returns cactus object for chaining", function() {
-        expect(expectation).toBe(cactus);
+        expect(expectation).toBe(Cactus);
       });
 
       it("sets variables", function() {
@@ -23,7 +23,7 @@ describe("cactus", function() {
     describe("matchers", function() {
       describe("toEqual", function() {
         beforeEach(function() {
-          expectation = cactus.expect(".banner", "display");
+          expectation = Cactus.expect(".banner", "display");
         });
 
         it("is equal", function() {
@@ -39,7 +39,7 @@ describe("cactus", function() {
 
       describe("toContain", function() {
         beforeEach(function() {
-          expectation = cactus.expect(".banner", "display");
+          expectation = Cactus.expect(".banner", "display");
         });
 
         it("is equal", function() {
@@ -55,7 +55,7 @@ describe("cactus", function() {
 
       describe("toHaveColor", function() {
         beforeEach(function() {
-          expectation = cactus.expect(".banner", "background-color");
+          expectation = Cactus.expect(".banner", "background-color");
         });
 
         it("is equal (case insensitive)", function() {
@@ -74,11 +74,11 @@ describe("cactus", function() {
   describe("css verification for all elements", function() {
     describe("expectEvery", function() {
       beforeEach(function() {
-        expectation = cactus.expectEvery("label", "text-align");
+        expectation = Cactus.expectEvery("label", "text-align");
       });
 
       it("returns cactus object for chaining", function() {
-        expect(expectation).toBe(cactus);
+        expect(expectation).toBe(Cactus);
       });
 
       it("sets variables", function() {
@@ -92,7 +92,7 @@ describe("cactus", function() {
     describe("matchers", function() {
       describe("toEqual", function() {
         beforeEach(function() {
-          expectation = cactus.expectEvery("label", "text-align");
+          expectation = Cactus.expectEvery("label", "text-align");
         });
 
         it("is equal", function() {
@@ -108,7 +108,7 @@ describe("cactus", function() {
 
       describe("toContain", function() {
         beforeEach(function() {
-          expectation = cactus.expect("label", "text-align");
+          expectation = Cactus.expect("label", "text-align");
         });
 
         it("is equal", function() {
@@ -124,7 +124,7 @@ describe("cactus", function() {
 
       describe("toHaveColor", function() {
         beforeEach(function() {
-          expectation = cactus.expectEvery("label", "color");
+          expectation = Cactus.expectEvery("label", "color");
         });
 
         it("is equal (case insensitive)", function() {
