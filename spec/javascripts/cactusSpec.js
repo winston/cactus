@@ -21,6 +21,10 @@ describe("Cactus", function() {
     });
 
     describe("matchers", function() {
+      beforeEach(function() {
+        spyOn(CactusReport, "render");
+      });
+
       describe("toEqual", function() {
         beforeEach(function() {
           expectation = Cactus.expect(".banner", "display");
@@ -90,6 +94,10 @@ describe("Cactus", function() {
     });
 
     describe("matchers", function() {
+      beforeEach(function() {
+        spyOn(CactusReport, "render");
+      });
+
       describe("toEqual", function() {
         beforeEach(function() {
           expectation = Cactus.expectEvery("label", "text-align");
