@@ -54,18 +54,34 @@ Cactus = (function() {
 
   // Private Methods
 
+  function selector(index) {
+    var str = "$('" + tag_name + "')";
+    if (index >=0) { str += "[" + index + "]"; }
+    return str;
+  }
+
   function compare(computed, expected, comparator) {
-    var result = true;
+    var result = true, status, message;
 
-    $.each(computed, function(index, style) {
-      var status  = comparator(style, expected);
-      var message = "Expected" + " $('" + tag_name + "')" + "[" + index + "] " + property + " to equal " + expected + ". Got " + style + ".";
+    if ($(tag_name).is("*")) {
+      $.each(computed, function(index, style) {
+        status  = comparator(style, expected);
+        message = "Expected " + selector(index) + " " + property + " to equal " + expected + ". Got " + style + ".";
 
-      result = result && status;
+        result = result && status;
+
+        // Print result on page
+        CactusReport.render(status, message);
+      });
+    } else {
+      status  = "skip";
+      message = "Expected " + selector() + " " + property + " to equal " + expected + ".";
+
+      result = "skip";
 
       // Print result on page
       CactusReport.render(status, message);
-    });
+    }
 
     return result;
   }

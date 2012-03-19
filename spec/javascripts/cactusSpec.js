@@ -25,53 +25,63 @@ describe("Cactus", function() {
     });
 
     describe("toEqual", function() {
-      afterEach(function() {
-        $("label:first").css("text-align", "right");
-      });
-
       it("returns true when result is true for all matched elements", function() {
         var result = Cactus.expect("label", "text-align").toEqual("right");
         expect(result).toBeTruthy();
       });
 
       it("returns false when result is false for one of the matched elements", function() {
+        // Setup
         $("label:first").css("text-align", "left");
+
         var result = Cactus.expect("label", "text-align").toEqual("left");
         expect(result).toBeFalsy();
+
+        // Reset
+        $("label:first").css("text-align", "right");
       });
     });
 
     describe("toContain", function() {
-      afterEach(function() {
-        $("label:first").css("text-align", "right");
-      });
-
       it("returns true when result is true for all matched elements", function() {
         var result = Cactus.expect("label", "text-align").toContain("righ");
         expect(result).toBeTruthy();
       });
 
       it("returns false when result is false for one of the matched elements", function() {
+        // Setup
         $("label:first").css("text-align", "left");
+
         var result = Cactus.expect("label", "text-align").toContain("lef");
         expect(result).toBeFalsy();
+
+        // Reset
+        $("label:first").css("text-align", "right");
       });
     });
 
     describe("toHaveColor", function() {
-      afterEach(function() {
-        $("label:first").css("color", "#330033");
-      });
-
       it("returns true when result is true for all matched elements (case insensitive)", function() {
         var result = Cactus.expect("label", "color").toHaveColor("#330033");
         expect(result).toBeTruthy();
       });
 
       it("returns false when result is false for one of the matched elements", function() {
+        // Setup
         $("label:first").css("color", "#000000");
+
         var result = Cactus.expect("label", "color").toHaveColor("#000000");
         expect(result).toBeFalsy();
+
+        // Reset
+        $("label:first").css("color", "#330033");
+      });
+    });
+
+    describe("skip", function() {
+      it("returns 'skip' when tag is not found", function() {
+        var result = Cactus.expect("#not_found", "display").toEqual("block");
+        expect(result).toEqual("skip");
       });
     });
   });
