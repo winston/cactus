@@ -42,15 +42,7 @@ You can make an expectation either on a specific element or a group of elements.
 
     Cactus.expect(".header", "font-size").toEqual("24px");
 
-The `expect` method requires a tag name and an attribute, and the tag name should only resolve to one DOM element on the page.
-
-If the tag name resolves to an array of DOM elements, only the first one will be tested. See `expectEvery` otherwise.
-
-#### `expectEvery`
-
-    Cactus.expectEvery("p", "font-size").toEqual("12px");
-
-The `expectEvery` method requires a tag name and an attribute. All DOM elements that resolve to the tag name will be tested on.
+The `expect` method requires a tag name and an attribute. All elements that resolve to the tag name will be tested.
 
 ### Matchers
 

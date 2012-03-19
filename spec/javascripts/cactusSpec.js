@@ -2,148 +2,76 @@ describe("Cactus", function() {
 
   var expectation;
 
-  describe("css verification for one element", function() {
-    describe("expect", function() {
-      beforeEach(function() {
-        expectation = Cactus.expect(".banner", "display");
-      });
-
-      it("returns cactus object for chaining", function() {
-        expect(expectation).toBe(Cactus);
-      });
-
-      it("sets variables", function() {
-        var debug = expectation.debug();
-        expect(debug.tag_name).toEqual(".banner");
-        expect(debug.property).toEqual("display");
-        expect(debug.styles).toEqual(["block"]);
-      });
+  describe("expect", function() {
+    beforeEach(function() {
+      expectation = Cactus.expect("label", "text-align");
     });
 
-    describe("matchers", function() {
-      beforeEach(function() {
-        spyOn(CactusReport, "render");
-      });
+    it("returns cactus object for chaining", function() {
+      expect(expectation).toBe(Cactus);
+    });
 
-      describe("toEqual", function() {
-        beforeEach(function() {
-          expectation = Cactus.expect(".banner", "display");
-        });
-
-        it("is equal", function() {
-          var result = expectation.toEqual("block");
-          expect(result).toBeTruthy();
-        });
-
-        it("is not equal", function() {
-          var result = expectation.toEqual("none");
-          expect(result).toBeFalsy();
-        });
-      });
-
-      describe("toContain", function() {
-        beforeEach(function() {
-          expectation = Cactus.expect(".banner", "display");
-        });
-
-        it("is equal", function() {
-          var result = expectation.toContain("blo");
-          expect(result).toBeTruthy();
-        });
-
-        it("is not equal", function() {
-          var result = expectation.toContain("non");
-          expect(result).toBeFalsy();
-        });
-      });
-
-      describe("toHaveColor", function() {
-        beforeEach(function() {
-          expectation = Cactus.expect(".banner", "background-color");
-        });
-
-        it("is equal (case insensitive)", function() {
-          var result = expectation.toHaveColor("#FFEEFF");
-          expect(result).toBeTruthy();
-        });
-
-        it("is not equal", function() {
-          var result = expectation.toHaveColor("#000000");
-          expect(result).toBeFalsy();
-        });
-      });
+    it("sets variables", function() {
+      var debug = expectation.debug();
+      expect(debug.tag_name).toEqual("label");
+      expect(debug.property).toEqual("text-align");
+      expect(debug.styles).toBeDefined(["right", "right"]);
     });
   });
 
-  describe("css verification for all elements", function() {
-    describe("expectEvery", function() {
-      beforeEach(function() {
-        expectation = Cactus.expectEvery("label", "text-align");
+  describe("matchers", function() {
+    beforeEach(function() {
+      spyOn(CactusReport, "render");
+    });
+
+    describe("toEqual", function() {
+      afterEach(function() {
+        $("label:first").css("text-align", "right");
       });
 
-      it("returns cactus object for chaining", function() {
-        expect(expectation).toBe(Cactus);
+      it("returns true when result is true for all matched elements", function() {
+        var result = Cactus.expect("label", "text-align").toEqual("right");
+        expect(result).toBeTruthy();
       });
 
-      it("sets variables", function() {
-        var debug = expectation.debug();
-        expect(debug.tag_name).toEqual("label");
-        expect(debug.property).toEqual("text-align");
-        expect(debug.styles).toBeDefined(["right", "right"]);
+      it("returns false when result is false for one of the matched elements", function() {
+        $("label:first").css("text-align", "left");
+        var result = Cactus.expect("label", "text-align").toEqual("left");
+        expect(result).toBeFalsy();
       });
     });
 
-    describe("matchers", function() {
-      beforeEach(function() {
-        spyOn(CactusReport, "render");
+    describe("toContain", function() {
+      afterEach(function() {
+        $("label:first").css("text-align", "right");
       });
 
-      describe("toEqual", function() {
-        beforeEach(function() {
-          expectation = Cactus.expectEvery("label", "text-align");
-        });
-
-        it("is equal", function() {
-          var result = expectation.toEqual("right");
-          expect(result).toBeTruthy();
-        });
-
-        it("is not equal", function() {
-          var result = expectation.toEqual("left");
-          expect(result).toBeFalsy();
-        });
+      it("returns true when result is true for all matched elements", function() {
+        var result = Cactus.expect("label", "text-align").toContain("righ");
+        expect(result).toBeTruthy();
       });
 
-      describe("toContain", function() {
-        beforeEach(function() {
-          expectation = Cactus.expect("label", "text-align");
-        });
+      it("returns false when result is false for one of the matched elements", function() {
+        $("label:first").css("text-align", "left");
+        var result = Cactus.expect("label", "text-align").toContain("lef");
+        expect(result).toBeFalsy();
+      });
+    });
 
-        it("is equal", function() {
-          var result = expectation.toContain("righ");
-          expect(result).toBeTruthy();
-        });
-
-        it("is not equal", function() {
-          var result = expectation.toContain("lef");
-          expect(result).toBeFalsy();
-        });
+    describe("toHaveColor", function() {
+      afterEach(function() {
+        $("label:first").css("color", "#330033");
       });
 
-      describe("toHaveColor", function() {
-        beforeEach(function() {
-          expectation = Cactus.expectEvery("label", "color");
-        });
+      it("returns true when result is true for all matched elements (case insensitive)", function() {
+        var result = Cactus.expect("label", "color").toHaveColor("#330033");
+        expect(result).toBeTruthy();
+      });
 
-        it("is equal (case insensitive)", function() {
-          var result = expectation.toHaveColor("#330033");
-          expect(result).toBeTruthy();
-        });
-
-        it("is not equal", function() {
-          var result = expectation.toHaveColor("#000000");
-          expect(result).toBeFalsy();
-        });
+      it("returns false when result is false for one of the matched elements", function() {
+        $("label:first").css("color", "#000000");
+        var result = Cactus.expect("label", "color").toHaveColor("#000000");
+        expect(result).toBeFalsy();
       });
     });
   });

@@ -25,14 +25,6 @@ Cactus = (function() {
   _cactus.expect = function(elem, attr) {
     tag_name  = elem;
     property  = attr;
-    styles    = [ $(tag_name).css(property) ];
-
-    return this;
-  };
-
-  _cactus.expectEvery = function(elem, attr) {
-    tag_name  = elem;
-    property  = attr;
     styles    = $.map( $(tag_name), function(elem, i) { return $(elem).css(property);  } );
 
     return this;
