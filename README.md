@@ -28,23 +28,23 @@ Finally, add some CSS specs (written in JavaScript) in `public/cactus_spec`. Fil
 
 The Cactus helper in your application layout includes Cactus.js and all spec files located in `public/cactus_spec/` on every page load in the Dev and Test env; the helper will not output anything when in other (Prod, Staging etc) environments.
 
-Once the files are included, the specs will be verified against the current page DOM, and results will be displayed at the bottom of the page.
+Once the files are included, the specs will be verified against the current page DOM, and results will be displayed.
 
 ## Writing Specs
 
-Specs are written in JavaScript, and they make use of jQuery.
+Write your specs in JavaScript, and place them in the `public/cactus_spec/` folder.
 
 ### Expectations
 
-You can either make an expectation on a specific element or a group of elements.
+You can make an expectation either on a specific element or a group of elements.
 
 #### `expect`
 
     Cactus.expect(".header", "font-size").toEqual("24px");
 
-The `expect` method requires a tag name and an attribute. Ideally, the tag name should be unique and resolves only to one DOM element on the page.
+The `expect` method requires a tag name and an attribute, and the tag name should only resolve to one DOM element on the page.
 
-If the tag name resolves to an array of DOM elements, then only the first one will be tested. See `expectEvery` for testing all elements of the same tag name.
+If the tag name resolves to an array of DOM elements, only the first one will be tested. See `expectEvery` otherwise.
 
 #### `expectEvery`
 
@@ -54,7 +54,7 @@ The `expectEvery` method requires a tag name and an attribute. All DOM elements 
 
 ### Matchers
 
-The expectations can be chained to matchers for verification of their CSS styling.
+The expectations are chained to matchers for verification of CSS styling.
 
 #### `toEqual`
 
