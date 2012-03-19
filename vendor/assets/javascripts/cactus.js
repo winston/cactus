@@ -1,12 +1,16 @@
-var Cactus = (function() {
+var Cactus, CactusReport;
 
-  // Public Accessor
-  var _cactus  = {};
+Cactus = (function() {
+  // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
+  "use strict";
 
   // Private Variables
+  var _cactus  = {};
   var tag_name = null;
   var property = null;
   var styles   = null;
+
+  // Public Methods
 
   // Debug
   _cactus.debug = function() {
@@ -20,7 +24,7 @@ var Cactus = (function() {
   // Expectations
   _cactus.expect = function(elem, attr) {
     tag_name  = elem;
-    property  = attr
+    property  = attr;
     styles    = [ $(tag_name).css(property) ];
 
     return this;
@@ -28,7 +32,7 @@ var Cactus = (function() {
 
   _cactus.expectEvery = function(elem, attr) {
     tag_name  = elem;
-    property  = attr
+    property  = attr;
     styles    = $.map( $(tag_name), function(elem, i) { return $(elem).css(property);  } );
 
     return this;
@@ -46,7 +50,7 @@ var Cactus = (function() {
   _cactus.toHaveColor = function(expected_style) {
     // Source: http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-jquery
     function rgb2hex(rgb) {
-      function hex(x) { return ("0" + parseInt(x).toString(16)).slice(-2); }
+      function hex(x) { return ("0" + parseInt(x, 10).toString(16)).slice(-2); }
 
       rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
       return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
@@ -77,17 +81,21 @@ var Cactus = (function() {
   // Return Accessor
   return _cactus;
 
-})();
+}());
 
-var CactusReport = (function() {
+CactusReport = (function() {
+  // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
+  "use strict";
 
-  // Public Accessor
+  // Private Variables
   var _cactus_report = {};
 
   _cactus_report.render = function(status, message) {
-    var $html = init_or_retrieve_report_container();
+    var $html, $row;
 
-    var $row = $(
+    $html = init_container();
+
+    $row  = $(
       "<div />",
       {
         html: message,
@@ -111,10 +119,10 @@ var CactusReport = (function() {
 
   // Private Methods
 
-  function init_or_retrieve_report_container() {
+  function init_container() {
     var $html = $("#cactus");
 
-    if ($html.length == 0) {
+    if ($html.length === 0) {
       // Create a new div#cactus
       $html = $("<div id='cactus'><div class='cactus_header'><div class='cactus_banner'>Cactus</div><div class='cactus_option'><a href='#' class='cactus_toggle_pass' style='display: none;'>Show Passes</a> | <a href='#' class='cactus_toggle_fail' style='display: none;'>Hide Failures</a></div></div></div>");
 
@@ -164,4 +172,4 @@ var CactusReport = (function() {
   // Return Accessor
   return _cactus_report;
 
-})();
+}());
