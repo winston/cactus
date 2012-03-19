@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails"        , ">= 3.2.0"
   s.add_dependency "jquery-rails" , ">= 2.0.1"
+
   s.add_development_dependency "rspec"
   s.add_development_dependency "jasmine"
 end
