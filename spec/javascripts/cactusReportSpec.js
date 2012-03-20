@@ -2,10 +2,10 @@ describe("CactusReport", function() {
 
   describe("displays Cactus feedback in div#cactus", function() {
     beforeEach(function() {
-      $("#cactus").remove();
+      CactusReport.reset();
     });
     afterEach(function() {
-      $("#cactus").remove();
+//      CactusReport.reset();
     });
 
     describe("all tests passed", function() {
@@ -111,6 +111,24 @@ describe("CactusReport", function() {
         $(".cactus_toggle_fail").click();
         expect($("#cactus .cactus_fail").is(":visible")).toBe(false);
       })
+    });
+
+    describe("stats", function() {
+      it("keeps a count of total specs", function() {
+        CactusReport.render(true, "1 test passed");
+        expect($(".cactus_stats").html()).toMatch("1 spec");
+
+        CactusReport.render(true, "1 test passed");
+        expect($(".cactus_stats").html()).toMatch("2 specs");
+      });
+
+      it("increments fail when test fails", function() {
+        CactusReport.render(false, "1 test failed");
+        expect($(".cactus_stats").html()).toMatch("1 failure") ;
+
+        CactusReport.render(false, "2 test failed");
+        expect($(".cactus_stats").html()).toMatch("2 failures") ;
+      });
     });
   });
 

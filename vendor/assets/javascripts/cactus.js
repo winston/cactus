@@ -4,13 +4,11 @@ Cactus = (function() {
   // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
   "use strict";
 
-  // Private Variables
+  // Module Accessor
   var _cactus  = {};
-  var tag_name = null;
-  var property = null;
-  var styles   = null;
 
-  // Public Methods
+  // Private Variables
+  var tag_name, property, styles;
 
   // Debug
   _cactus.debug = function() {
@@ -77,7 +75,7 @@ Cactus = (function() {
       status  = "skip";
       message = "Expected " + selector() + " " + property + " to equal " + expected + ".";
 
-      result = "skip";
+      result = status;
 
       // Print result on page
       CactusReport.render(status, message);
@@ -95,19 +93,38 @@ CactusReport = (function() {
   // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
   "use strict";
 
-  // Private Variables
+  // Module Accessor
   var _cactus_report = {};
+
+  // Private Variables
+  var status_stats   = { spec: 0, failure: 0 };
+  var status_types   =
+  {
+    false : { type: "fail", noun: "Failures" },
+    true  : { type: "pass", noun: "Passes"   },
+    skip  : { type: "skip", noun: "Skips"    }
+  };
   var status_styles  =
   {
     false : { class: "cactus_fail", css: { "background": "#f6704d" } },
     true  : { class: "cactus_pass", css: { "display": "none", "background": "#93cd67" } },
-    "skip": { class: "cactus_skip", css: { "display": "none", "background": "#f0e68c" } }
+    skip  : { class: "cactus_skip", css: { "display": "none", "background": "#f0e68c" } }
   };
 
+  // Reset
+  _cactus_report.reset  = function() {
+    status_stats   = { spec: 0, failure: 0 };
+    $("#cactus").remove();
+  };
+
+  // Render
   _cactus_report.render = function(status, message) {
     var $html, $row;
 
+    // Init/Find #cactus
     $html = init_container();
+
+    // Create row
     $row  = $(
       "<div />",
       {
@@ -118,10 +135,12 @@ CactusReport = (function() {
     );
     $html.append($row);
 
+    // Update Stats
+    show_stats(status);
+
     // Show toggles
-    show_toggle("fail");
-    show_toggle("pass");
-    show_toggle("skip");
+    show_toggle(status_types[status]["type"]);
+
   };
 
   // Private Methods
@@ -134,8 +153,9 @@ CactusReport = (function() {
       $html = $(
         "<div id='cactus'>" +
           "<div class='cactus_header'>" +
-            "<div class='cactus_banner'>Cactus</div>" +
-            "<div class='cactus_option'>" +
+            "<div class='cactus_title'>Cactus</div>" +
+            "<div class='cactus_stats'></div>" +
+            "<div class='cactus_links'>" +
               "<a href='#' class='cactus_toggle_fail' style='display: none;'>Hide Failures</a> " +
               "<a href='#' class='cactus_toggle_pass' style='display: none;'>Show Passes</a>   " +
               "<a href='#' class='cactus_toggle_skip' style='display: none;'>Show Skips</a>    " +
@@ -144,41 +164,55 @@ CactusReport = (function() {
         "</div>"
       );
 
-      // Setup CSS stylings
-      $html.css( { "position": "absolute", "width": "100%", "bottom": 0, "left": 0, "font-size": "12px" } );
-      $html.find(".cactus_header").css( { "display": "block", "margin": "10px 0 0", "padding": "10px", "background": "#faebd7", "overflow": "hidden" } );
-      $html.find(".cactus_banner").css( { "display": "block", "float": "left" , "font-size": "28px", "font-weight": "bold" } );
-      $html.find(".cactus_option").css( { "display": "block", "float": "right", "font-size": "12px", "font-weight": "bold" } );
-
       // Append to body
       $("body").append($html);
 
+      // Setup CSS stylings
+      $html.css( { "position": "absolute", "width": "100%", "bottom": 0, "left": 0, "font-size": "12px" } );
+      $html.find(".cactus_header").css( { "display": "block", "margin": "10px 0 0", "padding": "10px", "background": "#faebd7", "overflow": "hidden" } );
+      $html.find(".cactus_title").css( { "display": "block", "float": "left" , "font-size": "28px", "font-weight": "600" } );
+      $html.find(".cactus_stats").css( { "display": "block", "float": "left" , "font-size": "12px", "font-weight": "200" } );
+      $html.find(".cactus_links").css( { "display": "block", "float": "right", "font-size": "12px", "font-weight": "600" } );
+
       // Setup options
-      init_toggle("fail", "Show Failures", "Hide Failures");
-      init_toggle("pass", "Show Passes"  , "Hide Passes"  );
-      init_toggle("skip", "Show Skips"   , "Hide Skips"   );
+      $.each(status_types, function(key, value) { init_toggle(value["type"], value["noun"]); });
     }
 
     return $html;
   }
 
-  function init_toggle(type, show_msg, hide_msg) {
+  function init_toggle(type, noun) {
     $(".cactus_toggle_" + type).click(
       function() {
         var $selector = $(".cactus_" + type);
         if ($selector.is(":visible")) {
-          $(this).html(show_msg);
+          $(this).html("Show " + noun);
           $selector.hide();
         } else {
-          $(this).html(hide_msg);
+          $(this).html("Hide " + noun);
           $selector.show();
         }
       }
     )
   }
 
+  function show_stats(status) {
+    // Increment Stats
+    status_stats["spec"] += 1;
+    if (!status) { status_stats["failure"] += 1; }
+
+    // Render Stats
+    function pluralize(num, word) { return num == 1 ? num + " " + word : num + " " + word + "s"; }
+
+    var $html = $(".cactus_stats");
+    var stats = pluralize(status_stats["spec"], "spec") + ", " + pluralize(status_stats["failure"], "failure");
+
+    $html.html(stats);
+  }
+
   function show_toggle(type) {
     var $link, $rows;
+
     $link = $(".cactus_toggle_" + type);
     $rows = $(".cactus_" + type);
 
