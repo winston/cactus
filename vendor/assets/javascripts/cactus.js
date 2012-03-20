@@ -36,7 +36,7 @@ Cactus = (function() {
   };
 
   _cactus.toContain = function(expected_style) {
-    return compare(styles, expected_style, function(x, y) { return x.match(y); });
+    return compare(styles, expected_style, function(x, y) { return x.match(y) ? true : false; });
   };
 
   _cactus.toHaveColor = function(expected_style) {
@@ -97,32 +97,31 @@ CactusReport = (function() {
 
   // Private Variables
   var _cactus_report = {};
+  var status_styles  =
+  {
+    false : { class: "cactus_fail", css: { "background": "#f6704d" } },
+    true  : { class: "cactus_pass", css: { "display": "none", "background": "#93cd67" } },
+    "skip": { class: "cactus_skip", css: { "display": "none", "background": "#f0e68c" } }
+  };
 
   _cactus_report.render = function(status, message) {
     var $html, $row;
 
     $html = init_container();
-
     $row  = $(
       "<div />",
       {
-        html: message,
-        css : { "padding": "5px 10px", "border-bottom": "1px solid #d3d3d3" }
+        html : message,
+        class: status_styles[status]["class"],
+        css  : $.extend( { "padding": "5px 10px", "border-bottom": "1px solid #d3d3d3" }, status_styles[status]["css"] )
       }
     );
-    if(status) {
-      $row.addClass("cactus_pass");
-      $row.css( { "display": "none", "background": "#93cd67" } );
-    } else {
-      $row.addClass("cactus_fail");
-      $row.css( { "background": "#f6704d" } );
-    }
-
     $html.append($row);
 
     // Show toggles
-    if ($(".cactus_pass").length > 0) { $(".cactus_toggle_pass").show(); }
-    if ($(".cactus_fail").length > 0) { $(".cactus_toggle_fail").show(); }
+    show_toggle("fail");
+    show_toggle("pass");
+    show_toggle("skip");
   };
 
   // Private Methods
@@ -132,7 +131,18 @@ CactusReport = (function() {
 
     if ($html.length === 0) {
       // Create a new div#cactus
-      $html = $("<div id='cactus'><div class='cactus_header'><div class='cactus_banner'>Cactus</div><div class='cactus_option'><a href='#' class='cactus_toggle_pass' style='display: none;'>Show Passes</a> <a href='#' class='cactus_toggle_fail' style='display: none;'>Hide Failures</a></div></div></div>");
+      $html = $(
+        "<div id='cactus'>" +
+          "<div class='cactus_header'>" +
+            "<div class='cactus_banner'>Cactus</div>" +
+            "<div class='cactus_option'>" +
+              "<a href='#' class='cactus_toggle_fail' style='display: none;'>Hide Failures</a> " +
+              "<a href='#' class='cactus_toggle_pass' style='display: none;'>Show Passes</a>   " +
+              "<a href='#' class='cactus_toggle_skip' style='display: none;'>Show Skips</a>    " +
+            "</div>" +
+          "</div>" +
+        "</div>"
+      );
 
       // Setup CSS stylings
       $html.css( { "position": "absolute", "width": "100%", "bottom": 0, "left": 0, "font-size": "12px" } );
@@ -144,37 +154,37 @@ CactusReport = (function() {
       $("body").append($html);
 
       // Setup options
-      show_and_hide_pass();
-      show_and_hide_fail();
+      init_toggle("fail", "Show Failures", "Hide Failures");
+      init_toggle("pass", "Show Passes"  , "Hide Passes"  );
+      init_toggle("skip", "Show Skips"   , "Hide Skips"   );
     }
 
     return $html;
   }
 
-  function show_and_hide_pass() {
-    $(".cactus_toggle_pass").toggle(
+  function init_toggle(type, show_msg, hide_msg) {
+    $(".cactus_toggle_" + type).click(
       function() {
-        $(this).html("Hide Passes");
-        $(".cactus_pass").show();
-      },
-      function() {
-        $(this).html("Show Passes");
-        $(".cactus_pass").hide();
+        var $selector = $(".cactus_" + type);
+        if ($selector.is(":visible")) {
+          $(this).html(show_msg);
+          $selector.hide();
+        } else {
+          $(this).html(hide_msg);
+          $selector.show();
+        }
       }
-    );
+    )
   }
 
-  function show_and_hide_fail() {
-    $(".cactus_toggle_fail").toggle(
-      function() {
-        $(this).html("Show Failures");
-        $(".cactus_fail").hide();
-      },
-      function() {
-        $(this).html("Hide Failures");
-        $(".cactus_fail").show();
-      }
-    );
+  function show_toggle(type) {
+    var $link, $rows;
+    $link = $(".cactus_toggle_" + type);
+    $rows = $(".cactus_" + type);
+
+    if (!$link.is(":visible") && $rows.length > 0) {
+      $link.show();
+    }
   }
 
   // Return Accessor

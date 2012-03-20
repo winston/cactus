@@ -27,7 +27,7 @@ describe("Cactus", function() {
     describe("toEqual", function() {
       it("returns true when result is true for all matched elements", function() {
         var result = Cactus.expect("label", "text-align").toEqual("right");
-        expect(result).toBeTruthy();
+        expect(result).toBe(true);
       });
 
       it("returns false when result is false for one of the matched elements", function() {
@@ -35,7 +35,7 @@ describe("Cactus", function() {
         $("label:first").css("text-align", "left");
 
         var result = Cactus.expect("label", "text-align").toEqual("left");
-        expect(result).toBeFalsy();
+        expect(result).toBe(false);
 
         // Reset
         $("label:first").css("text-align", "right");
@@ -45,7 +45,7 @@ describe("Cactus", function() {
     describe("toContain", function() {
       it("returns true when result is true for all matched elements", function() {
         var result = Cactus.expect("label", "text-align").toContain("righ");
-        expect(result).toBeTruthy();
+        expect(result).toBe(true);
       });
 
       it("returns false when result is false for one of the matched elements", function() {
@@ -53,7 +53,7 @@ describe("Cactus", function() {
         $("label:first").css("text-align", "left");
 
         var result = Cactus.expect("label", "text-align").toContain("lef");
-        expect(result).toBeFalsy();
+        expect(result).toBe(false);
 
         // Reset
         $("label:first").css("text-align", "right");
@@ -63,7 +63,7 @@ describe("Cactus", function() {
     describe("toHaveColor", function() {
       it("returns true when result is true for all matched elements (case insensitive)", function() {
         var result = Cactus.expect("label", "color").toHaveColor("#330033");
-        expect(result).toBeTruthy();
+        expect(result).toBe(true);
       });
 
       it("returns false when result is false for one of the matched elements", function() {
@@ -71,7 +71,7 @@ describe("Cactus", function() {
         $("label:first").css("color", "#000000");
 
         var result = Cactus.expect("label", "color").toHaveColor("#000000");
-        expect(result).toBeFalsy();
+        expect(result).toBe(false);
 
         // Reset
         $("label:first").css("color", "#330033");
