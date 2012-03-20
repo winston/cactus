@@ -170,8 +170,8 @@ CactusReport = (function() {
       // Setup CSS stylings
       $html.css( { "position": "absolute", "width": "100%", "bottom": 0, "left": 0, "font-size": "12px" } );
       $html.find(".cactus_header").css( { "display": "block", "margin": "10px 0 0", "padding": "10px", "background": "#faebd7", "overflow": "hidden" } );
-      $html.find(".cactus_title").css( { "display": "block", "float": "left" , "font-size": "28px", "font-weight": "600" } );
-      $html.find(".cactus_stats").css( { "display": "block", "float": "left" , "font-size": "12px", "font-weight": "200" } );
+      $html.find(".cactus_title").css( { "display": "inline-block", "padding": "0 10px 0 0" , "font-size": "16px", "font-weight": "600" } );
+      $html.find(".cactus_stats").css( { "display": "inline-block",  "font-size": "12px", "font-weight": "200" } );
       $html.find(".cactus_links").css( { "display": "block", "float": "right", "font-size": "12px", "font-weight": "600" } );
 
       // Setup options
