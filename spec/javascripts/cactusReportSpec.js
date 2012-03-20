@@ -5,7 +5,7 @@ describe("CactusReport", function() {
       CactusReport.reset();
     });
     afterEach(function() {
-//      CactusReport.reset();
+      CactusReport.reset();
     });
 
     describe("all tests passed", function() {
