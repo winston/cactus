@@ -1,8 +1,8 @@
 # Cactus
 
-Write JavaScript. Test CSS.
-
 Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.
+
+Designs can be tested too.
 
 ## Prerequisites
 
