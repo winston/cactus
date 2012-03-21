@@ -19,9 +19,3 @@ rescue LoadError
     abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
   end
 end
-
-# CI Tasks
-desc "Run CI build"
-task :ci_build do
-  Rake::Task["spec"].invoke && Rake::Task["jasmine:ci"].invoke
-end
