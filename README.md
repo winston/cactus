@@ -15,6 +15,10 @@ Install the Cactus gem manually or include it in your Rails Gemfile.
 
     gem install cactus
 
+Add jQuery to application.js (or any manifest file)
+
+    //= require jquery
+
 Add the Cactus helper in your application layout, just before the `body` closing tag.
 
     <%= cactus %>
@@ -22,7 +26,7 @@ Add the Cactus helper in your application layout, just before the `body` closing
 Finally, add some CSS specs (written in JavaScript) in `public/cactus_spec`. Files need to end with spec.js.
 
     Cactus.expect(".header", "font-size").toEqual("24px");
-    Cactus.expectEvery("p", "font-size").toEqual("12px");
+    Cactus.expect("p", "font-size").toEqual("12px");
 
 ## A Brief Explanation
 
@@ -65,6 +69,34 @@ This tests for partial equality, using a REGEX constructed from the pass in valu
     Cactus.expect(".header", "color").toEqual("#ff0000");
 
 This tests for total equality, by converting rgba values returned by browser into hex values.
+
+## Automating
+
+With RSpec and Capybara (Selenium webdriver), it's possible to automate the Cactus tests by writing request specs.
+
+Add the following RSpec matcher to `spec/spec_helper.rb`:
+
+    RSpec::Matchers.define :be_cactus do
+      match do |actual|
+        all(".cactus_fail").blank?
+      end
+
+      failure_message_for_should do |actual|
+        message = "Oei! Something is wrong with the CSS on '#{actual.current_url}' lah!\n"
+        all(".cactus_fail").each do |failure|
+          message += "- #{failure.text}\n"
+        end
+        message
+      end
+    end
+
+Write a request spec `spec/requests/cactus_spec.rb`
+
+    describe 'rspec and capybara integration with cactus', js: true do
+      it "is cactus-ready " do
+        page.should be_cactus
+      end
+    end
 
 ## Support
 - Google Groups?
