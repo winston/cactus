@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cactus (0.0.4)
+    cactus (0.1.0)
       jquery-rails (>= 2.0.1)
       rails (>= 3.2.0)
 

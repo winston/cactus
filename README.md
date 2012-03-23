@@ -1,8 +1,8 @@
 # Cactus
 
-Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.
-
 Designs can be tested too.
+
+Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.
 
 ## Prerequisites
 

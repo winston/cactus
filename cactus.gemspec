@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.version     = Cactus::VERSION
   s.authors     = ["Winston Teo"]
   s.email       = ["winston@newcontext.com"]
-  s.homepage    = ""
-  s.summary     = %q{CSS BDD framework}
-  s.description = %q{Test your CSS}
+  s.homepage    = "https://github.com/newcontext/cactus"
+  s.summary     = %q{Cactus is a CSS testing framework}
+  s.description = %q{Designs can be tested too. Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
