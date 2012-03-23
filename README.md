@@ -98,13 +98,8 @@ Write a request spec `spec/requests/cactus_spec.rb`
       end
     end
 
-## Support
-- Google Groups?
-- CI?
-- Tracker?
-
 ## Maintainers
-TBD
+- [Winston Teo](mailto: winston@newcontext.com), {new context}
 
 ## License
 
