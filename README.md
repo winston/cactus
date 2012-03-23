@@ -19,9 +19,9 @@ Add jQuery to application.js (or any manifest file)
 
     //= require jquery
 
-Add the Cactus helper in your application layout, just before the `body` closing tag.
+Add the Cactus helper in your application layout, just before the `body` closing tag (assuming haml).
 
-    <%= cactus %>
+    = cactus
 
 Finally, add some CSS specs (written in JavaScript) in `public/cactus_spec`. Files need to end with spec.js.
 
