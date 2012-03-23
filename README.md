@@ -103,4 +103,4 @@ Write a request spec `spec/requests/cactus_spec.rb`
 
 ## License
 
-TBD
+Copyright (c) 2012 {new context}. This software is licensed under the MIT License.
