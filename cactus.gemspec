@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["winston@newcontext.com"]
   s.homepage    = "https://github.com/winston/cactus"
   s.summary     = %q{Cactus is a CSS testing framework}
-  s.description = %q{Designs can be tested too. Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.}
+  s.description = %q{Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.}
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
