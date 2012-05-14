@@ -1,8 +1,8 @@
 # Cactus
 
-Designs can be tested too.
+Designs can be tested too! Cactus is a CSS testing framework proof of concept.
 
-Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.
+It ensures that you always have the same CSS styling for DOM elements that you care about.
 
 ## Prerequisites
 
@@ -70,6 +70,30 @@ This tests for partial equality, using a REGEX constructed from the pass in valu
 
 This tests for total equality, by converting rgba values returned by browser into hex values.
 
+#### `toHaveMargin`
+
+    Cactus.expect(".header").toHaveMargin("10px");
+
+This tests equality on all sides of the element. You can pass in shorthand or longhand notation.
+
+#### `toHavePadding`
+
+    Cactus.expect(".header").toHaveMargin("10px 5px");
+
+This tests equality on all sides of the element. You can pass in shorthand or longhand notation.
+
+#### `toHaveBorderWidth`
+
+    Cactus.expect(".header").toHaveBorderWidth("1px");
+
+This tests equality on all sides of the element. You can pass in shorthand or longhand notation.
+
+#### `toHaveBorderColor`
+
+    Cactus.expect(".header").toHaveBorderColor("#ff000");
+
+This tests equality on all sides of the element.
+
 ## Automating
 
 With RSpec and Capybara (Selenium webdriver), it's possible to automate the Cactus tests by writing request specs.
@@ -101,6 +125,7 @@ Write a request spec `spec/requests/cactus_spec.rb`
 ## Maintainers
 - [Winston Teo](mailto: winston@newcontext.com), {new context}
 
+
 ## License
 
-Copyright (c) 2012 {new context}. This software is licensed under the MIT License.
+This software is licensed under the MIT License.
