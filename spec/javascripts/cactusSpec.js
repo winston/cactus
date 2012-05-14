@@ -60,6 +60,41 @@ describe("Cactus", function() {
       });
     });
 
+    describe("allSidedTests", function() {
+      it("works for toHavePadding", function() {
+        $(".jasmine_reporter").css("padding", "10px");
+
+        var result = Cactus.expect(".jasmine_reporter").toHavePadding("10px");
+        expect(result).toBe(true);
+      });
+
+      it("works for toHaveMargin", function() {
+        $(".jasmine_reporter").css("margin", "10px 20px");
+
+        var result = Cactus.expect(".jasmine_reporter").toHaveMargin("10px 20px");
+        expect(result).toBe(true);
+      });
+
+      describe("border", function() {
+        beforeEach(function() {
+          $(".jasmine_reporter").css("border-top"   , "1px solid red");
+          $(".jasmine_reporter").css("border-right" , "2px solid red");
+          $(".jasmine_reporter").css("border-bottom", "3px solid red");
+          $(".jasmine_reporter").css("border-left"  , "4px solid red");
+        });
+
+        it("works for toHaveBorderWidth", function() {
+          var result = Cactus.expect(".jasmine_reporter").toHaveBorderWidth("1px 2px 3px 4px");
+          expect(result).toBe(true);
+        });
+
+        it("works for toHaveBorderColor", function() {
+          var result = Cactus.expect(".jasmine_reporter").toHaveBorderColor("#FF0000");
+          expect(result).toBe(true);
+        });
+      });
+    });
+
     describe("toHaveColor", function() {
       it("returns true when result is true for all matched elements (case insensitive)", function() {
         var result = Cactus.expect("label", "color").toHaveColor("#330033");

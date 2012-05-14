@@ -22,8 +22,10 @@ Cactus = (function() {
   // Expectations
   _cactus.expect = function(elem, attr) {
     tag_name  = elem;
-    property  = attr;
-    styles    = $.map( $(tag_name), function(elem, i) { return $(elem).css(property);  } );
+    if (attr !== undefined) {
+      property = attr;
+      styles   = $.map( $(tag_name), function(elem, i) { return $(elem).css(property);  } );
+    }
 
     return this;
   };
@@ -48,6 +50,32 @@ Cactus = (function() {
     styles = $.map( styles, function(style, i) { return rgb2hex(style); } );
 
     return _cactus.toEqual(expected_style.toLowerCase());
+  };
+
+  _cactus.toHaveMargin = function(expected_style) {
+    var style_name = function(side) { return "margin-" + side };
+    return allSidedTests(style_name, expected_style);
+  };
+
+  _cactus.toHavePadding = function(expected_style) {
+    var style_name = function(side) { return "padding-" + side };
+    return allSidedTests(style_name, expected_style);
+  };
+
+  _cactus.toHaveBorderWidth = function(expected_style) {
+    var style_name = function(side) { return "border-" + side + "-width" };
+    return allSidedTests(style_name, expected_style);
+  };
+
+  _cactus.toHaveBorderColor = function(expected_style) {
+    var result   = true;
+    var longhand = shorthand2longhand(expected_style);
+
+    $.each(["top", "right", "bottom", "left"], function(index, side) {
+      result = result && _cactus.expect(tag_name, "border-" + side + "-color").toHaveColor(longhand[index]);
+    });
+
+    return result;
   };
 
   // Private Methods
@@ -80,6 +108,38 @@ Cactus = (function() {
       // Print result on page
       CactusReport.render(status, message);
     }
+
+    return result;
+  }
+
+  function shorthand2longhand(style) {
+    var shorthand = style.split(/\s/), longhand;
+
+    switch(shorthand.length) {
+      case 1:
+        longhand = [shorthand[0], shorthand[0], shorthand[0], shorthand[0]];
+        break;
+      case 2:
+        longhand = [shorthand[0], shorthand[1], shorthand[0], shorthand[1]];
+        break;
+      case 3:
+        longhand = [shorthand[0], shorthand[1], shorthand[2], shorthand[1]];
+        break;
+      case 4:
+        longhand = [shorthand[0], shorthand[1], shorthand[2], shorthand[3]];
+        break;
+    }
+
+    return longhand;
+  }
+
+  function allSidedTests(style_name, expected_style) {
+    var result   = true;
+    var longhand = shorthand2longhand(expected_style);
+
+    $.each(["top", "right", "bottom", "left"], function(index, side) {
+      result = result && _cactus.expect(tag_name, style_name(side)).toEqual(longhand[index]);
+    });
 
     return result;
   }
