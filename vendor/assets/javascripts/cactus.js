@@ -166,9 +166,9 @@ CactusReport = (function() {
   };
   var status_styles  =
   {
-    false : { class: "cactus_fail", css: { "background": "#f6704d" } },
-    true  : { class: "cactus_pass", css: { "display": "none", "background": "#93cd67" } },
-    skip  : { class: "cactus_skip", css: { "display": "none", "background": "#f0e68c" } }
+    false : { class: "cactus_fail", css: { "color": "red" } },
+    true  : { class: "cactus_pass", css: { "display": "none", "color": "green" } },
+    skip  : { class: "cactus_skip", css: { "display": "none", "color": "blue" } }
   };
 
   // Reset
@@ -228,11 +228,11 @@ CactusReport = (function() {
       $("body").append($html);
 
       // Setup CSS stylings
-      $html.css( { "position": "absolute", "height": "0", "width": "100%", "bottom": "0", left: "0", "font-size": "12px" } );
+      $html.css( { "position": "absolute", "height": "0", "width": "100%", "bottom": "0", left: "0", "font-size": "24px" } );
       $html.find(".cactus_header").css( { "display": "block", "padding": "10px", "background": "#faebd7", "overflow": "hidden" } );
-      $html.find(".cactus_title").css( { "display": "inline-block", "font-size": "16px", "font-weight": "600", "padding": "0 10px 0 0" } );
-      $html.find(".cactus_stats").css( { "display": "inline-block", "font-size": "12px", "font-weight": "200" } );
-      $html.find(".cactus_links").css( { "display": "block", "float": "right", "font-size": "12px", "font-weight": "600" } );
+      $html.find(".cactus_title").css( { "display": "inline-block", "font-size": "36px", "font-weight": "600", "padding": "0 10px 0 0" } );
+      $html.find(".cactus_stats").css( { "display": "inline-block", "font-size": "32px", "font-weight": "200" } );
+      $html.find(".cactus_links").css( { "display": "block", "float": "right", "font-size": "24px", "font-weight": "600" } );
 
       // Setup options
       $.each(status_types, function(key, value) { init_toggle(value["type"], value["noun"]); });
