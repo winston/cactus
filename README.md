@@ -1,6 +1,6 @@
 # Cactus
 
-Designs can be tested too! Cactus is a CSS testing framework proof of concept.
+Designs can be tested too ([you should read the slides](https://speakerdeck.com/u/winston/p/wah-lau-css-can-be-tested-too))! Cactus is a proof of concept for a CSS testing framework.
 
 It ensures that you always have the same CSS styling for DOM elements that you care about.
 
