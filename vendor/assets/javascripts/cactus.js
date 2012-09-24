@@ -35,6 +35,10 @@ Cactus = (function() {
     return compare(styles, expected_style, function(x, y) { return x === y; });
   };
 
+  _cactus.toBeGreaterThan = function(expected_style) {
+    return compare(styles, expected_style, function(x, y) { return parseInt(x) > parseInt(y); }, "exceed");
+  };
+
   _cactus.toContain = function(expected_style) {
     return compare(styles, expected_style, function(x, y) { return x.match(y) ? true : false; });
   };
@@ -86,13 +90,13 @@ Cactus = (function() {
     return str;
   }
 
-  function compare(computed, expected, comparator) {
+  function compare(computed, expected, comparator, operation) {
     var result = true, status, message;
 
     if ($(tag_name).is("*")) {
       $.each(computed, function(index, style) {
         status  = comparator(style, expected);
-        message = "Expected " + selector(index) + " " + property + " to equal " + expected + ". Got " + style + ".";
+        message = "Expected " + selector(index) + " " + property + " to " + (operation ? operation : "equal") + " " + expected + ". Got " + style + ".";
 
         result = result && status;
 
@@ -101,7 +105,7 @@ Cactus = (function() {
       });
     } else {
       status  = "skip";
-      message = "Expected " + selector() + " " + property + " to equal " + expected + ".";
+      message = "Expected " + selector() + " " + property + " to " + (operation ? operation : "equal") + " " + expected + ".";
 
       result = status;
 
