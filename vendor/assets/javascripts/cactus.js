@@ -35,6 +35,10 @@ Cactus = (function() {
     return compare(styles, expected_style, function(x, y) { return x === y; });
   };
 
+  _cactus.toBeGreaterThan = function(expected_style) {
+    return compare(styles, expected_style, function(x, y) { return parseInt(x) > parseInt(y); }, "exceed");
+  };
+
   _cactus.toContain = function(expected_style) {
     return compare(styles, expected_style, function(x, y) { return x.match(y) ? true : false; });
   };
