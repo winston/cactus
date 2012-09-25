@@ -40,6 +40,28 @@ describe("Cactus", function() {
         // Reset
         $("label:first").css("text-align", "right");
       });
+
+    describe("toBeGreaterThan", function() {
+      beforeEach(function() {
+        $("label").css("font-size", "12px");
+      });
+
+      it("returns true when result is true for all matched elements", function() {
+        var result = Cactus.expect("label", "font-size").toBeGreaterThan("10px");
+        expect(result).toBe(true);
+      });
+
+      it("returns false when result is false for one of the matched elements", function() {
+        // Setup
+        $("label:first").css("font-size", "9px");
+
+        var result = Cactus.expect("label", "font-size").toBeGreaterThan("10px");
+        expect(result).toBe(false);
+
+        // Reset
+        $("label").css("font-size", "12px");
+      });
+    });
     });
 
     describe("toContain", function() {
