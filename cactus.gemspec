@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.name        = "cactus"
   s.version     = Cactus::VERSION
   s.authors     = ["Winston Teo"]
-  s.email       = ["winston@newcontext.com"]
+  s.email       = ["winston@neo.com"]
   s.homepage    = "https://github.com/winston/cactus"
   s.summary     = %q{Cactus is a CSS testing framework}
   s.description = %q{Cactus is a CSS testing framework. It ensures that you always have the same CSS styling for DOM elements that you care about.}

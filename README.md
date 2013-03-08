@@ -125,7 +125,7 @@ Write a request spec `spec/requests/cactus_spec.rb`
     end
 
 ## Maintainers
-- [Winston Teo](mailto: winston@newcontext.com), {new context}
+- [Winston Teo](mailto: winston@neo.com), Neo
 
 
 ## License
